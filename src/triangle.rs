@@ -5,21 +5,21 @@ fn main() {
 }
 
 struct Model {
-    tri_vectors: (Vector2, Vector2, Vector2),
+    tri_vectors: [Vector2; 3],
     magnitude: f32,
-    tri_points: (Point2, Point2, Point2),
+    tri_points: [Point2; 3],
     period: f32,
 }
 
 fn model(app: &App) -> Model {
     let _window = app.new_window().size(800, 800).view(view).build().unwrap();
 
-    let tri_vectors = (
+    let tri_vectors = [
         Vector2::from_angle(0.0),
         Vector2::from_angle(2.0 * PI / 3.0),
         Vector2::from_angle(4.0 * PI / 3.0),
-    );
-    let tri_points = (pt2(0.0, 0.0), pt2(0.0, 0.0), pt2(0.0, 0.0));
+    ];
+    let tri_points = [pt2(0.0, 0.0), pt2(0.0, 0.0), pt2(0.0, 0.0)];
     Model {
         tri_vectors,
         tri_points,
@@ -36,32 +36,40 @@ fn update(app: &App, model: &mut Model, _update: Update) {
     // that means add 2PI radians over every x seconds
     let rad_to_add = -((2.0 * PI) / model.period) * (time % model.period);
 
-    // Update vector direction
-    model.tri_vectors.0 = Vector2::from_angle(0.0 + rad_to_add);
-    model.tri_vectors.1 = Vector2::from_angle((2.0 * PI / 3.0) + rad_to_add);
-    model.tri_vectors.2 = Vector2::from_angle((4.0 * PI / 3.0) + rad_to_add);
-
-    // Update point
-    model.tri_points.0 = model.tri_vectors.0.with_magnitude(model.magnitude);
-    model.tri_points.1 = model.tri_vectors.1.with_magnitude(model.magnitude);
-    model.tri_points.2 = model.tri_vectors.2.with_magnitude(model.magnitude);
+    // Update vector direction and point
+    for i in 0..model.tri_vectors.len() {
+        model.tri_vectors[i] = Vector2::from_angle((2.0 * i as f32 * PI / 3.0) + rad_to_add);
+        model.tri_points[i] = model.tri_vectors[i].with_magnitude(model.magnitude);
+    }
 }
 
 fn view(app: &App, model: &Model, frame: Frame) {
     // Prepare to draw.
     let draw = app.draw();
 
-    // circle around it
+    // central circle
     draw.ellipse()
         .color(BLACK)
-        .stroke(WHITE)
+        .stroke(REBECCAPURPLE)
         .stroke_weight(5.0)
         .radius(model.magnitude);
 
     // draw the triangle
-    draw.tri()
-        .color(WHITE)
-        .points(model.tri_points.0, model.tri_points.1, model.tri_points.2);
+    // draw.tri().color(REBECCAPURPLE).points(
+    //     model.tri_points[0],
+    //     model.tri_points[1],
+    //     model.tri_points[2],
+    // );
+
+    // circle on points
+    for i in 0..model.tri_vectors.len() {
+        draw.ellipse()
+            .color(rgba(0.0, 0.0, 0.0, 0.0))
+            .stroke(REBECCAPURPLE)
+            .stroke_weight(5.0)
+            .x_y(model.tri_points[i].x, model.tri_points[i].y)
+            .radius(model.magnitude);
+    }
 
     // circle in middle
     draw.ellipse().color(WHITE).w(3.0).h(3.0);
