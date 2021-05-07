@@ -9,9 +9,14 @@ edition = "2018"
 [[example]]
 name = "wave"
 path = "src/wave.rs"
+
 [[example]]
 name = "triangle"
 path = "src/triangle.rs"
+
+[[example]]
+name = "polyline"
+path = "src/polyline.rs"
 
 [dependencies]
 nannou = "0.16"
