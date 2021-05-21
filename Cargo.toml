@@ -22,5 +22,9 @@ path = "src/polyline.rs"
 name = "sine"
 path = "src/sine.rs"
 
+[[example]]
+name = "triangle2"
+path = "src/triangle2.rs"
+
 [dependencies]
 nannou = "0.16"
