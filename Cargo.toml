@@ -26,5 +26,9 @@ path = "src/sine.rs"
 name = "triangle2"
 path = "src/triangle2.rs"
 
+[[example]]
+name = "perlin"
+path = "src/perlin.rs"
+
 [dependencies]
 nannou = "0.16"
