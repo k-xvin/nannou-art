@@ -27,8 +27,12 @@ name = "triangle2"
 path = "src/triangle2.rs"
 
 [[example]]
-name = "perlin"
-path = "src/perlin.rs"
+name = "flowfield"
+path = "src/flowfield.rs"
+
+[[example]]
+name = "flowfield2"
+path = "src/flowfield2.rs"
 
 [dependencies]
 nannou = "0.16"
