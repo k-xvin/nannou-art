@@ -13,8 +13,8 @@ struct Model {
     rows: i32,
     width: f32,
     height: f32,
-    colors: [Rgb8; 4],
-    background: Rgb8, // flowfield: Vec<Vector2>,
+    colors: Vec<Rgba>,
+    background: Rgba, // flowfield: Vec<Vector2>,
                       // noisefield: Vec<f32>
 }
 
@@ -24,7 +24,7 @@ fn model(app: &App) -> Model {
     let mut noise = Perlin::new();
     noise = noise.set_seed(random_f32() as u32);
 
-    let scale = 10; // smaller = worse performance
+    let scale = 15; // smaller = worse performance
 
     let width = app.main_window().rect().w();
     let height = app.main_window().rect().h();
@@ -34,18 +34,41 @@ fn model(app: &App) -> Model {
 
     //['#ec643b', '#56b7ab', '#f8cb57', '#1f1e43']
     //'#f7f2df'
-    let colors = [
+    let _colors_hex = [0xec643b, 0x56b7ab, 0xf8cb57, 0x1f1e43];
+
+    // see examples/offline/colors in nannou repo
+    let _colors2: Vec<Rgba> = _colors_hex
+        .to_vec()
+        .into_iter()
+        .map(|c| {
+            let blue: u8 = (c & 0xFF) as u8;
+            let green: u8 = ((c >> 8) & 0xFF) as u8;
+            let red: u8 = ((c >> 16) & 0xFF) as u8;
+            rgba(
+                red as f32 / 255.0,
+                green as f32 / 255.0,
+                blue as f32 / 255.0,
+                0.3,
+            )
+        })
+        .collect();
+
+    let colors_u8 = [
         rgb_u32(0xec643b),
         rgb_u32(0x56b7ab),
         rgb_u32(0xf8cb57),
         rgb_u32(0x1f1e43),
     ];
-    // .into_iter()
-    // .map(|i| {
-    //     let (r, g, b) = i.into_components(); 
-    //     rgba(r, g, b, 0.3 as u8)
-    // }).collect();
-    let background = rgb_u32(0xf7f2df);
+
+    let colors: Vec<Rgba> = colors_u8.to_vec().into_iter().map(|c| {
+        let (r, g, b) = c.into_components();
+        rgba(r as f32 / 255.0, g as f32 / 255.0, b as f32 / 255.0, 0.8)
+    }).collect();
+
+
+    let (r, g, b) = rgb_u32(0xf7f2df).into_components();
+    let background = rgba(r as f32 / 255.0, g as f32 / 255.0, b as f32 / 255.0, 1.0);
+    //background.alpha = 0.5;
 
     Model {
         noise,
@@ -101,6 +124,8 @@ fn view(app: &App, model: &Model, frame: Frame) {
                 (j * model.scale) as f32 - model.height / 2.0,
             );
 
+            let color = model.colors[((i * j) % 4) as usize];
+
             // draw.ellipse()
             //     .color(WHITE)
             //     .w_h(3.0, 3.0)
@@ -109,8 +134,8 @@ fn view(app: &App, model: &Model, frame: Frame) {
             let y = j as f64 * 0.08;
             let noisevalue = model.noise.get([x, y, t]) as f32;
             draw.ellipse()
-                .color(model.colors[((i * j) % 4) as usize])
-                .w_h(30.0 * noisevalue, 30.0 * noisevalue)
+                .color(color)
+                .w_h(100.0 * noisevalue, 100.0 * noisevalue)
                 .x_y(start.x, start.y);
         }
     }
