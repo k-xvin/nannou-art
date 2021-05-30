@@ -59,7 +59,7 @@ fn update(app: &App, model: &mut Model, _update: Update) {
         for j in 0..model.rows {
             let x = i as f64 * 0.05;
             let y = j as f64 * 0.05;
-            let angle = model.noise.get([x, y, t]) as f32; // SCALE NOISE BY 2PI FOR FULL ROTATION
+            let angle = model.noise.get([x, y, t]) as f32 * 2.0 * PI; // SCALE NOISE BY 2PI FOR FULL ROTATION
             model
                 .flowfield
                 .push(Vector2::from_angle(angle).with_magnitude(model.scale as f32));

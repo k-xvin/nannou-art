@@ -21,7 +21,7 @@ fn model(app: &App) -> Model {
     let mut noise = Perlin::new();
     noise = noise.set_seed(random_f32() as u32);
 
-    let scale = 30;
+    let scale = 10; // smaller = worse performance
 
     let width = app.main_window().rect().w();
     let height = app.main_window().rect().h();
