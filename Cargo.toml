@@ -42,5 +42,10 @@ path = "src/noisefield.rs"
 name = "flowfield3"
 path = "src/flowfield3.rs"
 
+[[example]]
+name = "twotone"
+path = "src/twotone.rs"
+
+
 [dependencies]
 nannou = "0.16"

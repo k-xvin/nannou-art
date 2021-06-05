@@ -8,6 +8,7 @@ fn main() {
 
 struct Model {
     noise: Perlin,
+    //noise: OpenSimplex,
     scale: i32, // the size of a flow vector square
     cols: i32,
     rows: i32,
@@ -22,6 +23,7 @@ fn model(app: &App) -> Model {
     let _window = app.new_window().size(800, 800).view(view).build().unwrap();
 
     let mut noise = Perlin::new();
+    //let mut noise = OpenSimplex::new();
     noise = noise.set_seed(random_f32() as u32);
 
     let scale = 15; // smaller = worse performance
