@@ -37,48 +37,40 @@ fn update(_app: &App, _model: &mut Model, _update: Update) {}
 fn view(app: &App, model: &Model, frame: Frame) {
     let draw = app.draw();
 
-    //let half_width = model.width / 2.0;
-    //let half_height = model.height / 2.0;
+    let half_width = model.width / 2.0;
+    let half_height = model.height / 2.0;
+
+    let scale = 20;
+    for i in 0..(model.width as i32 / scale) {
+        let y = (i as f32 * scale as f32) - half_height;
+
+        draw.line()
+            .color(model.color1)
+            .stroke_weight(3.0)
+            .start(pt2(-half_width, y))
+            .end(pt2(half_height, y))
+            .z_degrees(30.0);
+
+        draw.line()
+            .color(model.color1)
+            .stroke_weight(3.0)
+            .start(pt2(-half_width, y))
+            .end(pt2(half_height, y))
+            .z_degrees(-30.0);
+
+        draw.line()
+            .color(model.color1)
+            .stroke_weight(3.0)
+            .start(pt2(-half_width, y))
+            .end(pt2(half_height, y))
+            .z_degrees(90.0);
+    }
 
     draw.ellipse()
-        .color(model.color2)
-        .stroke(model.color1)
-        .stroke_weight(3.0)
-        .w_h(50.0, 50.0);
-
-    let radius = 150.0;
-    let points = (0..=360).map(|i| {
-        let radian = deg_to_rad(i as f32);
-        let x = radian.sin() * radius;
-        let y = radian.cos() * radius;
-        (pt2(x, y), model.color1)
-    });
-
-    draw.polyline().weight(3.0).points_colored(points);
-
-    let points = (0..=360).map(|i| {
-        let radian = deg_to_rad(i as f32);
-        let offset = random_range(10.0, 20.0);
-        let x = radian.sin() * (radius + offset);
-        let y = radian.cos() * (radius + offset);
-        (pt2(x, y), model.color1)
-    });
-
-    draw.polyline().weight(3.0).points_colored(points);
-
-    // for i in -400..400 {
-    //     // if i % 4 == 0 {
-    //     //     continue;
-    //     // }
-    //     for j in 2..400 {
-    //         let rand_y = random_range(1.0, j as f32);
-
-    //         draw.ellipse()
-    //             .color(model.color1)
-    //             .w_h(1.0, 1.0)
-    //             .x_y(i as f32, -rand_y);
-    //     }
-    // }
+        .color(rgba(0.0,0.0,0.0,0.0))
+        .stroke(model.color2)
+        .stroke_weight(250.0)
+        .w_h(900.0, 900.0);
 
     draw.background().color(model.color2);
 
