@@ -46,6 +46,11 @@ path = "src/flowfield3.rs"
 name = "twotone"
 path = "src/twotone.rs"
 
+[[example]]
+name = "contemplate"
+path = "src/contemplate.rs"
+
+
 
 [dependencies]
 nannou = "0.16"
