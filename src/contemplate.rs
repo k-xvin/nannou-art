@@ -19,6 +19,9 @@ fn model(app: &App) -> Model {
         points.push(pt2(x, y));
     }
 
+
+    // generate the initial points
+
     Model { points }
 }
 
@@ -35,6 +38,8 @@ fn view(app: &App, model: &Model, frame: Frame) {
     let t = app.elapsed_frames();
 
     // draw dots
+    // drawn position of the dot is based on time
+    // time progresses -> dots move
     for p in model.points.iter() {
         draw_point(&draw, *p, t as f32, STEELBLUE, 1.0);
     }
@@ -70,10 +75,11 @@ fn draw_point(draw: &Draw, start: Point2, t: f32, rgb8: Rgb8, speed_mult: f32) {
         // magnitude of the start point
         let magnitude = start.magnitude();
 
+
+
         // construct a new vector with the sum of angles and correct magnitude
         let final_angle = angle_vector.angle() + start.angle();
         let final_vector = Vector2::from_angle(final_angle).with_magnitude(magnitude);
-        //final_vector = final_vector.with_magnitude(magnitude);
 
         if i == 0 {
             draw.ellipse()
