@@ -15,11 +15,11 @@ fn main() {
                 let data = Data::parse(data).unwrap();
                 for command in data.iter() {
                     println!("{:?}", command);
-                    match command {
-                        &Command::Move(..) => println!("Move!"),
-                        &Command::Line(..) => println!("Line!"),
-                        _ => {}
-                    }
+                    // match command {
+                    //     &Command::Move(..) => println!("Move!"),
+                    //     &Command::Line(..) => println!("Line!"),
+                    //     _ => {}
+                    // }
                 }
             }
             _ => {}
