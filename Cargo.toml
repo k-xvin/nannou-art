@@ -47,8 +47,16 @@ name = "twotone"
 path = "src/twotone.rs"
 
 [[example]]
-name = "contemplate"
-path = "src/contemplate.rs"
+name = "spiral"
+path = "src/spiral.rs"
+
+[[example]]
+name = "flower"
+path = "src/flower.rs"
+
+
+
+
 
 [[example]]
 name = "test"
